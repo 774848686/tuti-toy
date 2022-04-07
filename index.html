@@ -12,7 +12,6 @@
     <div id="app">
         <p> {{msg}}</p>
         <p>{{fullMsg}}</p>
-
     </div>
     <script type="module">
         import {reactive,effect,computed,createApp} from './vue.js';
@@ -21,6 +20,7 @@
                 return {
                     msg:'hello my toy vue'
                 }
+
             },
             computed:{
                 fullMsg(){
