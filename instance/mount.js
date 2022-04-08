@@ -10,6 +10,7 @@ export function initMount(Vue) {
         vm._realHTMLDOM = vm._templateDOM.cloneNode(true);
         vm._parent = vm._templateDOM.parentNode;
         vm._render();
+        return vm;
 
     }
     Vue.prototype._render = function () {
@@ -19,6 +20,7 @@ export function initMount(Vue) {
     }
     Vue.prototype.update = function (real) {
         let vm = this;
+        console.log(real.nodeType)
         if (real && real.nodeType) {
             vm._parent.replaceChild(real, vm._templateDOM);
         }

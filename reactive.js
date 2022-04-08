@@ -39,6 +39,7 @@ function reactive(target) {
         },
         set(obj, prop, value) {
             if (oldValue != value) {
+                console.log('set',value)
                 obj[prop] = value;
                 trigger(obj, prop)
             }
