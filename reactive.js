@@ -22,7 +22,6 @@ function track(target, key) {
 
 function trigger(target, prop) {
     let depsMap = targetMap.get(target);
-    console.log(depsMap)
     if (depsMap) {
         depsMap.get(prop).forEach(effect => {
             effect();
@@ -89,12 +88,12 @@ function computed(fn) {
         get value() {
             if (dirty) {
                 value = runner(); // 等到取值的时候再执行计算属性内部创建的effect
-                dirty = false; // 取完值后数据就不是脏的了
+                // dirty = false; // 取完值后数据就不是脏的了
             }
             return value;
         }
     }
-    return computed;
+    return computed; //取值的时候 需要取.value
 }
 export {
     computed,

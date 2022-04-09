@@ -11,7 +11,7 @@
 <body>
     <div id="app">
         <p> {{msg}}</p>
-        <!-- <p>{{fullMsg}}</p> -->
+        <p>{{fullMsg}}</p>
     </div>
     <script type="module">
         import {reactive,effect,computed,createApp} from './vue.js';
@@ -36,6 +36,7 @@
         console.log(app)
         setTimeout(()=>{
             app.msg = 'test'
+            console.log(app.fullMsg)
         },1000)
         
     </script>
