@@ -9,11 +9,15 @@ export function compiler(template, data) {
         let nodeType = childNodes[i].nodeType;
         if (nodeType === NODE_TYPES.TEXT_NODE) {
             let textNodeValue = childNodes[i].nodeValue;
-            console.log(textNodeValue)
+            let txt = textNodeValue.replace(reg, function (_, t) {
+                const key = t.trim();
+                return data[key];
+            });
+            childNodes[i].nodeValue = txt;
         }
-        if(nodeType === NODE_TYPES.ELEMENT_NODE){
-            compiler(childNodes[i],data);
+        if (nodeType === NODE_TYPES.ELEMENT_NODE) {
+            compiler(childNodes[i], data);
         }
     }
-    return template;
+    return template;    
 }

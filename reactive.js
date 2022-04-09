@@ -22,6 +22,7 @@ function track(target, key) {
 
 function trigger(target, prop) {
     let depsMap = targetMap.get(target);
+    console.log(depsMap)
     if (depsMap) {
         depsMap.get(prop).forEach(effect => {
             effect();

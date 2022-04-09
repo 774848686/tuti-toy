@@ -13,7 +13,6 @@ export function initMixin(Vue) {
         if (vm.$options.data) {
             initData(vm)
         }
-        console.log(vm)
     }
 
     function initData(vm) {
@@ -34,7 +33,7 @@ export function initMixin(Vue) {
         function getData(data, vm) {
             return data.call(vm, vm);
         }
-        // 将data()中的数据代理到vm上,获取跟修改就会触发vm._data响应式数据；
+        // 将data()中的数据代理到vm._data上,获取跟修改就会触发vm._data响应式数据；
         function proxy(target, sourceKey, key) {
             const sharedPropertyDefinition = {
                 enumerable: true,
