@@ -12,13 +12,21 @@
     <div id="app">
         <p> {{msg}}</p>
         <p>{{fullMsg}}</p>
+        <p>姓名：{{info.name}}</p>
+        <p>母亲：{{info.parent.mom}}</p>
     </div>
     <script type="module">
         import {reactive,effect,computed,createApp} from './vue.js';
         const app = createApp({
             data(){
                 return {
-                    msg:'hello my toy vue'
+                    msg:'hello my toy vue',
+                    info:{
+                        name:'devin',
+                        parent:{
+                            mom:'d'
+                        }
+                    }
                 }
 
             },
@@ -31,7 +39,7 @@
                 changeText(){
                     
                 }
-            },
+            }
         }).mount('#app')
         console.log(app)
         setTimeout(()=>{

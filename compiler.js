@@ -1,6 +1,7 @@
 import {
     NODE_TYPES
 } from './constant.js';
+import {getValueByPath} from './utils.js'
 const reg = /\{\{(.+?)\}\}/; // 取双括号里面的内容
 export function compiler(template, data) {
     let childNodes = template.childNodes;
@@ -11,7 +12,7 @@ export function compiler(template, data) {
             let textNodeValue = childNodes[i].nodeValue;
             let txt = textNodeValue.replace(reg, function (_, t) {
                 const key = t.trim();
-                return data[key];
+                return getValueByPath(data,key);
             });
             childNodes[i].nodeValue = txt;
         }

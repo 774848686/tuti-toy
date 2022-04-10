@@ -31,9 +31,7 @@ export function initMixin(Vue) {
         vm._computed = {};
         Object.keys(computed).forEach(key => {
             if (key in vm) {
-                warn(`
-                    不能添加一个已经存在的变量名
-                `)
+                warn(`不能添加一个已经存在的变量名`)
             } else {
                 //定义一个key到vm实例上，然后把这个回调函数添加到compuetd监听方法中
                 defineComputed(vm, key, computed[key]);
