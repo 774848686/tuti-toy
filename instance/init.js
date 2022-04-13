@@ -24,6 +24,9 @@ export function initMixin(Vue) {
         if (opts.computed) {
             initComputed(vm)
         }
+        if(opts.methods){
+            initMethods(vm)
+        }
     }
 
     function initComputed(vm) {
@@ -37,6 +40,13 @@ export function initMixin(Vue) {
                 defineComputed(vm, key, computed[key]);
             }
         })
+    }
+
+    function initMethods(vm) {
+        let methods = vm.$options.methods;
+        for (let key in methods) {
+            vm[key] = typeof methods[key] === 'function' ? methods[key].bind(vm) : noop
+        }
     }
 
     function initData(vm) {
@@ -72,7 +82,7 @@ export function initMixin(Vue) {
             set: noop
         }
         sharedPropertyDefinition.get = function proxyGetter() {
-            if(isValue){
+            if (isValue) {
                 console.log(this[sourceKey][key].value)
             }
             return isValue ? this[sourceKey][key].value : this[sourceKey][key]

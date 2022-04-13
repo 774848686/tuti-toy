@@ -35,11 +35,14 @@ function reactive(target) {
         get(obj, prop) {
             oldValue = obj[prop];
             track(obj, prop);
+            if (typeof obj[prop] === 'object') {
+                reactive(obj[prop])
+            }
             return obj[prop]
         },
         set(obj, prop, value) {
             if (oldValue != value) {
-                console.log('set',value)
+                console.log('set', value)
                 obj[prop] = value;
                 trigger(obj, prop)
             }
