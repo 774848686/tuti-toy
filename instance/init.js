@@ -1,6 +1,8 @@
 import {
     reactive,
-    computed
+    computed,
+    popTarget,
+    pushTarget
 } from "../reactive.js";
 import {
     noop
@@ -24,7 +26,7 @@ export function initMixin(Vue) {
         if (opts.computed) {
             initComputed(vm)
         }
-        if(opts.methods){
+        if (opts.methods) {
             initMethods(vm)
         }
     }
@@ -65,7 +67,13 @@ export function initMixin(Vue) {
         vm._data = reactive(vm._data)
 
         function getData(data, vm) {
-            return data.call(vm, vm);
+            try {
+                pushTarget(null) // 由于此时是 Vue 的初始化, 还没有进行模板渲染, 所以不需要进行依赖收集, 在 pushTarget 的时候传入 空
+                return data.call(vm, vm);
+            } finally {
+                popTarget()
+            }
+
         }
     }
 
@@ -82,9 +90,6 @@ export function initMixin(Vue) {
             set: noop
         }
         sharedPropertyDefinition.get = function proxyGetter() {
-            if (isValue) {
-                console.log(this[sourceKey][key].value)
-            }
             return isValue ? this[sourceKey][key].value : this[sourceKey][key]
         }
         sharedPropertyDefinition.set = function proxySetter(val) {

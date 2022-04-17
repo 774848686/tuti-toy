@@ -5,6 +5,7 @@ import {
     effect
 } from '../reactive.js';
 export function initMount(Vue) {
+    const isRender = true;
     Vue.prototype.mount = function (el) {
         let vm = this;
         // 获取模版
@@ -13,10 +14,16 @@ export function initMount(Vue) {
         vm._oldHTMLDOM = vm._templateDOM;
         vm._parent = vm._templateDOM.parentNode;
         // 数据改变跟视图更新进行绑定
-        effect(() => {
-            vm._render.call(vm);
-            vm.update(vm, vm.rnode);
+        effect(()=>{
+            vm._updateComponent(vm)
+        }, {
+            isRender
         });
+        return vm;
+    }
+    Vue.prototype._updateComponent = function (vm) {
+        vm._render.call(vm);
+        vm.update(vm, vm.rnode);
         return vm;
     }
     Vue.prototype._render = function () {
