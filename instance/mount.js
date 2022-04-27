@@ -1,6 +1,7 @@
 import {
     compiler
 } from '../compiler.js';
+import {compileToFunctions} from '../compiler/index.js';
 import {
     effect
 } from '../reactive.js';
@@ -9,12 +10,20 @@ export function initMount(Vue) {
     Vue.prototype.mount = function (el) {
         let vm = this;
         // 获取模版
-        vm._el = el;
-        vm._templateDOM = document.querySelector(vm._el);
+        let opts = vm.$options;
+        vm._el = vm._templateDOM = document.querySelector(el);
         vm._oldHTMLDOM = vm._templateDOM;
         vm._parent = vm._templateDOM.parentNode;
+        if (!opts.render) {
+            let template = opts.template;
+            if (!template && el) { // 应该使用外部的模板
+                template = vm._el.outerHTML;
+            }
+            const render = compileToFunctions(template);
+            opts.render = render;
+        }
         // 数据改变跟视图更新进行绑定
-        effect(()=>{
+        effect(() => {
             vm._updateComponent(vm)
         }, {
             isRender
@@ -29,6 +38,7 @@ export function initMount(Vue) {
     Vue.prototype._render = function () {
         let vm = this;
         const _realHTMLDOM = vm._templateDOM.cloneNode(true);
+
         vm.rnode = compiler(_realHTMLDOM, vm);
     }
     Vue.prototype.update = function (vm, real) {
