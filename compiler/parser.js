@@ -14,6 +14,7 @@ export function parseHtml(html){
         }   
     }
    console.log( parseStartTag())
+   
     // 字符串截取 前进函数
     function advance(n){
         html = html.substring(n)
