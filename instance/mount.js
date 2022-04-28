@@ -14,14 +14,6 @@ export function initMount(Vue) {
         vm._el = vm._templateDOM = document.querySelector(el);
         vm._oldHTMLDOM = vm._templateDOM;
         vm._parent = vm._templateDOM.parentNode;
-        if (!opts.render) {
-            let template = opts.template;
-            if (!template && el) { // 应该使用外部的模板
-                template = vm._el.outerHTML;
-            }
-            const render = compileToFunctions(template);
-            opts.render = render;
-        }
         // 数据改变跟视图更新进行绑定
         effect(() => {
             vm._updateComponent(vm)
